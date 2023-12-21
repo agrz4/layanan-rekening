@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Pembuatan Tabungan</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #000;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .histori-container {
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .transaksi {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ .pesan }}</h1>
+
+    <!-- Form for creating a new account -->
+    <form action="/buat-tabungan" method="POST">
+        <button type="submit">Buat Tabungan Baru</button>
+    </form>
+
+    <!-- Form for checking balance -->
+    <form action="/lihat-saldo" method="POST">
+        <label for="nomor">Nomor Rekening:</label>
+        <input type="text" id="nomor" name="nomor" required>
+        <button type="submit">Lihat Saldo</button>
+    </form>
+
+    <!-- Form for deposit -->
+    <form action="/setoran" method="POST">
+        <label for="nomorSetoran">Nomor Rekening:</label>
+        <input type="text" id="nomorSetoran" name="nomor" required>
+        <label for="jumlahSetoran">Jumlah Setoran:</label>
+        <input type="text" id="jumlahSetoran" name="jumlah" required>
+        <button type="submit">Setoran</button>
+    </form>
+
+    <!-- Form for withdrawal -->
+    <form action="/penarikan" method="POST">
+        <label for="nomorPenarikan">Nomor Rekening:</label>
+        <input type="text" id="nomorPenarikan" name="nomor" required>
+        <label for="jumlahPenarikan">Jumlah Penarikan:</label>
+        <input type="text" id="jumlahPenarikan" name="jumlah" required>
+        <button type="submit">Penarikan</button>
+    </form>
+</body>
+
+</html>
