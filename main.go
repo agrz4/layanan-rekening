@@ -24,14 +24,20 @@ func lihatSaldo(c *gin.Context) {
 	nomorStr := c.PostForm("nomor")
 	nomor, err := strconv.Atoi(nomorStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Nomor rekening harus berupa angka"})
+		c.HTML(http.StatusBadRequest, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Nomor rekening harus berupa angka. Error: %s", err.Error()),
+		})
 		return
 	}
 
 	if _, ok := saldo[nomor]; ok {
-		c.JSON(http.StatusOK, gin.H{"pesan": fmt.Sprintf("Saldo untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor])})
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Saldo untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor]),
+		})
 	} else {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Nomor rekening tidak ditemukan."})
+		c.HTML(http.StatusNotFound, "index.html", gin.H{
+			"pesan": "Nomor rekening tidak ditemukan.",
+		})
 	}
 }
 
@@ -39,22 +45,30 @@ func setoran(c *gin.Context) {
 	nomorStr := c.PostForm("nomor")
 	nomor, err := strconv.Atoi(nomorStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Nomor rekening harus berupa angka"})
+		c.HTML(http.StatusBadRequest, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Nomor rekening harus berupa angka. Error: %s", err.Error()),
+		})
 		return
 	}
 
 	jumlahStr := c.PostForm("jumlah")
 	jumlah, err := strconv.ParseFloat(jumlahStr, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Jumlah setoran harus berupa angka"})
+		c.HTML(http.StatusBadRequest, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Jumlah setoran harus berupa angka. Error: %s", err.Error()),
+		})
 		return
 	}
 
 	if _, ok := saldo[nomor]; ok {
 		saldo[nomor] += jumlah
-		c.JSON(http.StatusOK, gin.H{"pesan": fmt.Sprintf("Setoran berhasil. Saldo terbaru untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor])})
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Setoran berhasil. Saldo terbaru untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor]),
+		})
 	} else {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Nomor rekening tidak ditemukan."})
+		c.HTML(http.StatusNotFound, "index.html", gin.H{
+			"pesan": "Nomor rekening tidak ditemukan.",
+		})
 	}
 }
 
@@ -62,26 +76,36 @@ func penarikan(c *gin.Context) {
 	nomorStr := c.PostForm("nomor")
 	nomor, err := strconv.Atoi(nomorStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Nomor rekening harus berupa angka"})
+		c.HTML(http.StatusBadRequest, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Nomor rekening harus berupa angka. Error: %s", err.Error()),
+		})
 		return
 	}
 
 	jumlahStr := c.PostForm("jumlah")
 	jumlah, err := strconv.ParseFloat(jumlahStr, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Jumlah penarikan harus berupa angka"})
+		c.HTML(http.StatusBadRequest, "index.html", gin.H{
+			"pesan": fmt.Sprintf("Jumlah penarikan harus berupa angka. Error: %s", err.Error()),
+		})
 		return
 	}
 
 	if _, ok := saldo[nomor]; ok {
 		if saldo[nomor] >= jumlah {
 			saldo[nomor] -= jumlah
-			c.JSON(http.StatusOK, gin.H{"pesan": fmt.Sprintf("Penarikan berhasil. Saldo terbaru untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor])})
+			c.HTML(http.StatusOK, "index.html", gin.H{
+				"pesan": fmt.Sprintf("Penarikan berhasil. Saldo terbaru untuk nomor rekening %d adalah: %.2f", nomor, saldo[nomor]),
+			})
 		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Saldo tidak mencukupi."})
+			c.HTML(http.StatusBadRequest, "index.html", gin.H{
+				"pesan": "Saldo tidak mencukupi.",
+			})
 		}
 	} else {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Nomor rekening tidak ditemukan."})
+		c.HTML(http.StatusNotFound, "index.html", gin.H{
+			"pesan": "Nomor rekening tidak ditemukan.",
+		})
 	}
 }
 
